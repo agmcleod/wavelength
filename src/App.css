@@ -1,0 +1,11 @@
+.app {
+  text-align: center;
+}
+
+.app-header {
+  border-bottom: 1px solid #222;
+}
+
+.app-intro {
+  font-size: large;
+}
