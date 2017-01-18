@@ -1,11 +1,12 @@
-.app {
-  text-align: center;
-}
-
 .appHeader {
   border-bottom: 1px solid #222;
+  text-align: center;
 }
 
 .appIntro {
   font-size: large;
+}
+
+.list {
+  list-style: none;
 }
