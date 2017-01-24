@@ -22,7 +22,6 @@ rules:
   guard-for-in: 2 # make sure for-in loops have an if statement
   indent: [2, 2, {'SwitchCase': 1}] # specify tab or space width for your code
   key-spacing: 2 # enforce spacing between keys and values in object literal properties
-  linebreak-style: [2, 'unix'] # disallow mixed 'LF' and 'CRLF' as linebreaks
   max-len: [2, 120, 4, {ignoreComments: false, ignoreUrls: true}] # specify the maximum length of a line in your program
   max-nested-callbacks: [2, 2] # specify the maximum depth callbacks can be nested
   new-cap: 2 # require a capital letter for constructors

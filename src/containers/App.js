@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styles from './App.css';
 import AddFile from '../components/add_file/';
+import ffDownload from '../ffdownload';
 
 class App extends Component {
   constructor (props) {
@@ -12,6 +13,13 @@ class App extends Component {
     };
 
     this.onAddFileField = this.onAddFileField.bind(this);
+  }
+
+  componentDidMount () {
+    console.time('download');
+    ffDownload(() => {
+      console.timeEnd('download');
+    });
   }
 
   getAddFileFields () {
