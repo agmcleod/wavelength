@@ -9,11 +9,12 @@ class App extends Component {
 
     this.state = {
       downloading: true,
-      files: {},
-      fileCount: 1
+      files: [''],
+      formats: []
     };
 
     this.onAddFileField = this.onAddFileField.bind(this);
+    this.onConvert = this.onConvert.bind(this);
   }
 
   componentDidMount () {
@@ -25,48 +26,77 @@ class App extends Component {
   }
 
   getAddFileFields () {
-    const fileFields = [];
-    for (let i = 0; i < this.state.fileCount; i++) {
-      fileFields.push(
+    return this.state.files.map((file, i) => {
+      return (
         <AddFile key={i} onAddFile={(p) => this.onAddFile(i, p)} onRemoveFileField={() => this.onRemoveFileField(i)} />
       );
-    }
-
-    return fileFields;
-  }
-
-  onAddFile (i, path) {
-    this.setState({
-      files: Object.assign({}, { [i]: path })
     });
   }
 
+  onAddFile (i, path) {
+    const files = this.state.files.slice(0);
+    files[i] = path;
+    this.setState({ files });
+  }
+
   onAddFileField () {
-    this.setState({ fileCount: this.state.fileCount + 1 });
+    this.setState({
+      files: this.state.files.concat([''])
+    });
   }
 
   onRemoveFileField (i) {
-    const files = Object.assign({}, this.state.files);
-    delete files[i];
-    this.setState({ files, fileCount: this.state.fileCount - 1 });
+    const files = this.state.files.slice(0);
+    files.splice(i, 1);
+    this.setState({ files });
   }
 
-  onConvert () {
+  onConvert (e) {
+    e.preventDefault();
+    electron.ipcRenderer.send('convert-files', {
+      files: this.state.files, formats: this.state.formats
+    });
+  }
 
+  onToggleFormat (event, format) {
+    const formats = this.state.formats.slice(0);
+    if (event.target.checked) {
+      formats.push(format);
+      this.setState({ formats });
+    } else {
+      this.setState({ formats: formats.filter((f) => f !== format) });
+    }
   }
 
   renderDownloading () {
     return <h3>Downloading ffmpeg</h3>;
   }
 
+  renderFormats () {
+    const formats = ['mp3', 'ogg'];
+
+    return formats.map((format, i) => {
+      return (
+        <div key={i} className={styles.format}>
+          <label htmlFor={format}>{format.toUpperCase()}</label>
+          <input type='checkbox' name={format} onChange={(e) => this.onToggleFormat(e, format)} />
+        </div>
+      );
+    });
+  }
+
   renderForm () {
     return (
       <form onSubmit={this.onConvert}>
+        <div className={styles.formats}>
+          {this.renderFormats()}
+        </div>
         <ul className={styles.list}>
           {this.getAddFileFields()}
         </ul>
 
         <p><button type='button' onClick={this.onAddFileField}>Add another file</button></p>
+        <p><input type='submit' value='Convert' /></p>
       </form>
     );
   }

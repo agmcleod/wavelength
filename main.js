@@ -1,4 +1,4 @@
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
 const url = require('url');
 const ffDownload = require('./src/backend/ffdownload');
@@ -29,6 +29,10 @@ function createWindow () {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     win = null;
+  });
+
+  ipcMain.on('convert-files', (event, arg) => {
+    console.log(event, arg);
   });
 }
 
