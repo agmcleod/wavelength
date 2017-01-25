@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import styles from './App.css';
 import AddFile from '../components/add_file/';
-import ffDownload from '../ffdownload';
+const electron = require('electron');
 
 class App extends Component {
   constructor (props) {
     super(props);
 
     this.state = {
+      downloading: true,
       files: {},
       fileCount: 1
     };
@@ -16,9 +17,10 @@ class App extends Component {
   }
 
   componentDidMount () {
-    console.time('download');
-    ffDownload(() => {
-      console.timeEnd('download');
+    electron.ipcRenderer.on('downloaded', (event, message) => {
+      if (message) {
+        this.setState({ downloading: false });
+      }
     });
   }
 
@@ -53,19 +55,29 @@ class App extends Component {
 
   }
 
+  renderDownloading () {
+    return <h3>Downloading ffmpeg</h3>;
+  }
+
+  renderForm () {
+    return (
+      <form onSubmit={this.onConvert}>
+        <ul className={styles.list}>
+          {this.getAddFileFields()}
+        </ul>
+
+        <p><button type='button' onClick={this.onAddFileField}>Add another file</button></p>
+      </form>
+    );
+  }
+
   render () {
     return (
       <div>
         <div className={styles.appHeader}>
           <h2>Wavelength - audio converter</h2>
         </div>
-        <form onSubmit={this.onConvert}>
-          <ul className={styles.list}>
-            {this.getAddFileFields()}
-          </ul>
-
-          <p><button type='button' onClick={this.onAddFileField}>Add another file</button></p>
-        </form>
+        {this.state.downloading ? this.renderDownloading() : this.renderForm()}
       </div>
     );
   }
