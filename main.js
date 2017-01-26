@@ -2,10 +2,17 @@ const {app, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
 const url = require('url');
 const ffDownload = require('./src/backend/ffdownload');
+const ffmpeg = require('fluent-ffmpeg');
+const async = require('async');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
+
+const codecs = {
+  mp3: 'libmp3lame',
+  ogg: 'libvorbis'
+};
 
 function createWindow () {
   console.time('download');
@@ -32,7 +39,27 @@ function createWindow () {
   });
 
   ipcMain.on('convert-files', (event, arg) => {
-    console.log(event, arg);
+    async.each(arg.files, (filePath, cb) => {
+      async.each(arg.formats, (format, cb2) => {
+        const codec = codecs[format];
+        if (!codec) {
+          return cb(new Error(`Could not find codec: ${format}`));
+        }
+
+        const newPath = filePath.replace(new RegExp(`${path.extname(filePath)}$`), '');
+
+        ffmpeg(filePath)
+          .audioCodec(codec)
+          .on('end', cb2)
+          .save(path.normalize(`${newPath}.${format}`));
+      }, cb);
+    }, (err) => {
+      if (err) {
+        win.webContents.send('save-error', err.message);
+      } else {
+        win.webContents.send('save-succeeded', 'Files converted successfully!');
+      }
+    });
   });
 }
 

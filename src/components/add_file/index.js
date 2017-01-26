@@ -4,7 +4,7 @@ export default function AddFile (props) {
   return (
     <li>
       <input type='file' onChange={(e) => {
-        props.onAddFile(e.target.value);
+        props.onAddFile(e.target.files[0].path);
       }} />
       <button type='button' onClick={props.onRemoveFileField}>Remove</button>
     </li>

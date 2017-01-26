@@ -10,7 +10,9 @@ class App extends Component {
     this.state = {
       downloading: true,
       files: [''],
-      formats: []
+      formats: [],
+      errorMessage: null,
+      successMessage: null
     };
 
     this.onAddFileField = this.onAddFileField.bind(this);
@@ -22,6 +24,14 @@ class App extends Component {
       if (message) {
         this.setState({ downloading: false });
       }
+    });
+
+    electron.ipcRenderer.on('save-error', (event, message) => {
+      this.setState({ errorMessage: message, successMessage: null });
+    });
+
+    electron.ipcRenderer.on('save-succeeded', (event, message) => {
+      this.setState({ errorMessage: null, successMessage: message });
     });
   }
 
@@ -79,7 +89,7 @@ class App extends Component {
       return (
         <div key={i} className={styles.format}>
           <label htmlFor={format}>{format.toUpperCase()}</label>
-          <input type='checkbox' name={format} onChange={(e) => this.onToggleFormat(e, format)} />
+          <input type='checkbox' id={format} onChange={(e) => this.onToggleFormat(e, format)} />
         </div>
       );
     });
@@ -88,7 +98,7 @@ class App extends Component {
   renderForm () {
     return (
       <form onSubmit={this.onConvert}>
-        <div className={styles.formats}>
+        <div>
           {this.renderFormats()}
         </div>
         <ul className={styles.list}>
@@ -105,6 +115,8 @@ class App extends Component {
     return (
       <div>
         <div className={styles.appHeader}>
+          {this.state.errorMessage ? <p className={styles.error}>{this.state.errorMessage}</p> : null}
+          {this.state.successMessage ? <p className={styles.success}>{this.state.successMessage}</p> : null}
           <h2>Wavelength - audio converter</h2>
         </div>
         {this.state.downloading ? this.renderDownloading() : this.renderForm()}
