@@ -3,3 +3,4 @@ build/
 ffmpeg
 __MACOSX
 .DS_Store
+dist/

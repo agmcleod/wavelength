@@ -1,7 +1,7 @@
 const {app, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
 const url = require('url');
-const ffDownload = require('./src/backend/ffdownload');
+const ffDownload = require('./backend/ffdownload');
 const ffmpeg = require('fluent-ffmpeg');
 const async = require('async');
 
@@ -16,7 +16,7 @@ const codecs = {
 
 function createWindow () {
   console.time('download');
-  ffDownload(() => {
+  ffDownload(app, () => {
     win.webContents.send('downloaded', true);
     console.timeEnd('download');
   });
