@@ -15,10 +15,9 @@ const codecs = {
 };
 
 function createWindow () {
-  console.time('download');
   ffDownload(app, () => {
     win.webContents.send('downloaded', true);
-    console.timeEnd('download');
+    ffmpeg.setFfmpegPath(path.join(app.getPath('userData'), 'ffmpeg'));
   });
 
   win = new BrowserWindow({width: 800, height: 600});
