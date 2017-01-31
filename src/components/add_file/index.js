@@ -1,4 +1,5 @@
 import React from 'react';
+import { DangerButton } from '../button';
 
 export default function AddFile (props) {
   return (
@@ -6,7 +7,7 @@ export default function AddFile (props) {
       <input type='file' onChange={(e) => {
         props.onAddFile(e.target.files[0].path);
       }} />
-      <button type='button' onClick={props.onRemoveFileField}>Remove</button>
+      <DangerButton onClick={props.onRemoveFileField}>Remove</DangerButton>
     </li>
   );
 }

@@ -1,0 +1,15 @@
+.button {
+  background: #260339;
+}
+
+.button, .danger {
+  padding: 10px 10px;
+  border: 0;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 1.1em;
+}
+
+.danger {
+  background: #AA5585;
+}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styles from './App.css';
-import AddFile from '../components/add_file/';
+import AddFile from '../components/add_file';
+import { Button } from '../components/button';
 const electron = require('electron');
 
 class App extends Component {
@@ -111,7 +112,7 @@ class App extends Component {
         </ul>
 
         <p><button type='button' onClick={this.onAddFileField}>Add another file</button></p>
-        <p><input type='submit' value='Convert' /></p>
+        <p><Button type='submit'>Convert</Button></p>
       </form>
     );
   }
