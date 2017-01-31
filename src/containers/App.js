@@ -85,22 +85,27 @@ class App extends Component {
   renderFormats () {
     const formats = ['aif', 'flac', 'mp3', 'ogg', 'wav'];
 
-    return formats.map((format, i) => {
-      return (
-        <div key={i} className={styles.format}>
-          <label htmlFor={format}>{format.toUpperCase()}</label>
-          <input type='checkbox' id={format} onChange={(e) => this.onToggleFormat(e, format)} />
-        </div>
-      );
-    });
+    return (
+      <ul className={styles.list}>
+        {formats.map((format, i) => {
+          return (
+            <li key={i}>
+              <input
+                className={styles.formatCb}
+                type='checkbox' id={format}
+                onChange={(e) => this.onToggleFormat(e, format)} />
+              <label htmlFor={format}>{format.toUpperCase()}</label>
+            </li>
+          );
+        })}
+      </ul>
+    );
   }
 
   renderForm () {
     return (
       <form onSubmit={this.onConvert}>
-        <div>
-          {this.renderFormats()}
-        </div>
+        {this.renderFormats()}
         <ul className={styles.list}>
           {this.getAddFileFields()}
         </ul>
@@ -119,7 +124,9 @@ class App extends Component {
           {this.state.successMessage ? <p className={styles.success}>{this.state.successMessage}</p> : null}
           <h2>Wavelength - audio converter</h2>
         </div>
-        {this.state.downloading ? this.renderDownloading() : this.renderForm()}
+        <div className={styles.body}>
+          {this.state.downloading ? this.renderDownloading() : this.renderForm()}
+        </div>
       </div>
     );
   }

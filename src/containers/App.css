@@ -9,6 +9,7 @@
 
 .list {
   list-style: none;
+  padding-left: 0;
 }
 
 .error {
@@ -27,6 +28,10 @@
   border: 1px solid green;
 }
 
-.format {
-  display: inline-block;
+.body {
+  padding: 10px 15px;
+}
+
+.formatCb {
+  margin-right: 10px;
 }
