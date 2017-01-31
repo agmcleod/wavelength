@@ -10,8 +10,11 @@ const async = require('async');
 let win;
 
 const codecs = {
+  aif: 'pcm_s32le',
+  flac: 'flac',
   mp3: 'libmp3lame',
-  ogg: 'libvorbis'
+  ogg: 'libvorbis',
+  wav: 'pcm_s32le'
 };
 
 function createWindow () {

@@ -83,7 +83,7 @@ class App extends Component {
   }
 
   renderFormats () {
-    const formats = ['mp3', 'ogg'];
+    const formats = ['aif', 'flac', 'mp3', 'ogg', 'wav'];
 
     return formats.map((format, i) => {
       return (
