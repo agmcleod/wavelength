@@ -12,22 +12,6 @@
   padding-left: 0;
 }
 
-.error {
-  width: 100%;
-  padding: 15px 20px;
-  background: #f99;
-  color: red;
-  border: 1px solid red;
-}
-
-.success {
-  width: 100%;
-  padding: 15px 20px;
-  background: #8c8;
-  color: green;
-  border: 1px solid green;
-}
-
 .body {
   padding: 10px 15px;
 }

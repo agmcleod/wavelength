@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styles from './App.css';
 import AddFile from '../components/add_file';
 import { Button } from '../components/button';
+import Flash from '../components/flash';
 const electron = require('electron');
 
 class App extends Component {
@@ -21,6 +22,7 @@ class App extends Component {
   }
 
   componentDidMount () {
+    console.log(electron, typeof electron)
     electron.ipcRenderer.on('downloaded', (event, message) => {
       if (message) {
         this.setState({ downloading: false });
@@ -121,8 +123,8 @@ class App extends Component {
     return (
       <div>
         <div className={styles.appHeader}>
-          {this.state.errorMessage ? <p className={styles.error}>{this.state.errorMessage}</p> : null}
-          {this.state.successMessage ? <p className={styles.success}>{this.state.successMessage}</p> : null}
+          {this.state.errorMessage ? <Flash type='error' message={this.state.errorMessage} /> : null}
+          {this.state.successMessage ? <Flash type='success' message={this.state.successMessage} /> : null}
           <h2>Wavelength - audio converter</h2>
         </div>
         <div className={styles.body}>
