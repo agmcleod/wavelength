@@ -3,7 +3,6 @@ import styles from './App.css';
 import AddFile from '../components/add_file';
 import { Button } from '../components/button';
 import Flash from '../components/flash';
-const electron = require('electron');
 
 class App extends Component {
   constructor (props) {
@@ -22,20 +21,19 @@ class App extends Component {
   }
 
   componentDidMount () {
-    console.log(electron, typeof electron)
-    electron.ipcRenderer.on('downloaded', (event, message) => {
-      if (message) {
-        this.setState({ downloading: false });
-      }
-    });
+    // electron.ipcRenderer.on('downloaded', (event, message) => {
+    //   if (message) {
+    //     this.setState({ downloading: false });
+    //   }
+    // });
 
-    electron.ipcRenderer.on('save-error', (event, message) => {
-      this.setState({ errorMessage: message, successMessage: null });
-    });
+    // electron.ipcRenderer.on('save-error', (event, message) => {
+    //   this.setState({ errorMessage: message, successMessage: null });
+    // });
 
-    electron.ipcRenderer.on('save-succeeded', (event, message) => {
-      this.setState({ errorMessage: null, successMessage: message });
-    });
+    // electron.ipcRenderer.on('save-succeeded', (event, message) => {
+    //   this.setState({ errorMessage: null, successMessage: message });
+    // });
   }
 
   getAddFileFields () {

@@ -152,3 +152,7 @@ globals:
   it: true
   expect: true
   context: true
+  beforeAll: true
+  beforeEach: true
+  afterAll: true
+  afterEach: true
