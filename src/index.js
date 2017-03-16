@@ -3,11 +3,17 @@ import ReactDOM from 'react-dom';
 
 const electron = require('electron');
 
-import { createStore } from 'redux';
+import { createStore, combineReducers} from 'redux';
 import { flashMessageReducer } from './reducers/flash_message';
+import thunk from 'redux-thunk';
+import { Provider } from 'react-redux';
 
 import App from './containers/App';
 import './index.css';
+
+const store = createStore(
+  combineReducers({ flashMessageReducer }), {}, thunk
+);
 
 electron.ipcRenderer.on('downloaded', (event, message) => {
   if (message) {
@@ -24,6 +30,8 @@ electron.ipcRenderer.on('save-succeeded', (event, message) => {
 });
 
 ReactDOM.render(
-  <App />,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById('root')
 );

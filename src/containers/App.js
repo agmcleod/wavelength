@@ -64,9 +64,9 @@ class App extends Component {
 
   onConvert (e) {
     e.preventDefault();
-    electron.ipcRenderer.send('convert-files', {
-      files: this.state.files, formats: this.state.formats
-    });
+    // electron.ipcRenderer.send('convert-files', {
+    //   files: this.state.files, formats: this.state.formats
+    // });
   }
 
   onToggleFormat (event, format) {
@@ -111,7 +111,7 @@ class App extends Component {
           {this.getAddFileFields()}
         </ul>
 
-        <p><button type='button' onClick={this.onAddFileField}>Add another file</button></p>
+        <p><Button type='button' onClick={this.onAddFileField} className={styles.addAnotherFile}>Add another file</Button></p>
         <p><Button type='submit'>Convert</Button></p>
       </form>
     );

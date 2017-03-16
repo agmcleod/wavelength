@@ -10,6 +10,8 @@ export function Button (props) {
   );
 }
 
+Button.displayName = 'Button';
+
 Button.propTypes = {
   children: childPropValidation(),
   className: React.PropTypes.string,
