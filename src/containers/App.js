@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styles from './App.css';
 import AddFile from '../components/add_file';
 import { Button } from '../components/button';
 import Flash from '../components/flash';
 
-class App extends Component {
+export class App extends Component {
+  static propTypes = {
+    downloading: React.PropTypes.bool.isRequired
+  }
+
   constructor (props) {
     super(props);
 
     this.state = {
-      downloading: true,
       files: [''],
       formats: [],
       errorMessage: null,
@@ -126,11 +130,15 @@ class App extends Component {
           <h2>Wavelength - audio converter</h2>
         </div>
         <div className={styles.body}>
-          {this.state.downloading ? this.renderDownloading() : this.renderForm()}
+          {this.props.downloading ? this.renderDownloading() : this.renderForm()}
         </div>
       </div>
     );
   }
 }
 
-export default App;
+export default connect((state) => {
+  return {
+    downloading: state.ffmpegReducer.downloading
+  };
+})(App);

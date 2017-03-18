@@ -156,3 +156,4 @@ globals:
   beforeEach: true
   afterAll: true
   afterEach: true
+  jest: true
