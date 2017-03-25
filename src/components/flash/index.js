@@ -1,13 +1,24 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { hideMessage } from '../../reducers/flash_message';
 import styles from './index.css';
+import { TYPES } from '../../reducers/flash_message';
 
-export default function Flash (props) {
+export function Flash (props) {
   return (
-    <p className={props.type === 'error' ? styles.error : styles.success}>{props.message}</p>
+    <p className={props.type === TYPES.ERROR ? styles.error : styles.success}>
+      {props.message}
+      <button className={styles.close} onClick={props.hideMessage()}>x</button>
+    </p>
   );
 }
 
 Flash.propTypes = {
-  type: React.PropTypes.string.isRequired,
-  message: React.PropTypes.string.isRequired
+  hideMessage: React.PropTypes.func.isRequired,
+  type: React.PropTypes.oneOf([TYPES.ERROR, TYPES.SUCCESS]),
+  message: React.PropTypes.string
 };
+
+export default connect(() => {
+  return {};
+}, { hideMessage })(Flash);

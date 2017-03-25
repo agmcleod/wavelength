@@ -4,10 +4,16 @@ import styles from './App.css';
 import AddFile from '../components/add_file';
 import { Button } from '../components/button';
 import Flash from '../components/flash';
+import { requestConvert } from '../reducers/convert';
 
 export class App extends Component {
   static propTypes = {
-    downloading: React.PropTypes.bool.isRequired
+    downloading: React.PropTypes.bool.isRequired,
+    flashMessage: React.PropTypes.shape({
+      type: React.PropTypes.string,
+      message: React.PropTypes.string
+    }),
+    requestConvert: React.PropTypes.func.isRequired,
   }
 
   constructor (props) {
@@ -15,9 +21,7 @@ export class App extends Component {
 
     this.state = {
       files: [''],
-      formats: [],
-      errorMessage: null,
-      successMessage: null
+      formats: []
     };
 
     this.onAddFileField = this.onAddFileField.bind(this);
@@ -68,9 +72,7 @@ export class App extends Component {
 
   onConvert (e) {
     e.preventDefault();
-    // electron.ipcRenderer.send('convert-files', {
-    //   files: this.state.files, formats: this.state.formats
-    // });
+    this.props.requestConvert(this.state.formats, this.state.files);
   }
 
   onToggleFormat (event, format) {
@@ -115,18 +117,28 @@ export class App extends Component {
           {this.getAddFileFields()}
         </ul>
 
-        <p><Button type='button' onClick={this.onAddFileField} className={styles.addAnotherFile}>Add another file</Button></p>
+        <p>
+          <Button
+            type='button'
+            onClick={this.onAddFileField}
+            className={styles.addAnotherFile}>
+            Add another file
+          </Button>
+        </p>
         <p><Button type='submit'>Convert</Button></p>
       </form>
     );
   }
 
   render () {
+    const flashMessage = this.props.flashMessage;
     return (
       <div>
         <div className={styles.appHeader}>
-          {this.state.errorMessage ? <Flash type='error' message={this.state.errorMessage} /> : null}
-          {this.state.successMessage ? <Flash type='success' message={this.state.successMessage} /> : null}
+          {
+            this.props.flashMessage &&
+            <Flash type={flashMessage.type} message={flashMessage.message} />
+          }
           <h2>Wavelength - audio converter</h2>
         </div>
         <div className={styles.body}>
@@ -139,6 +151,7 @@ export class App extends Component {
 
 export default connect((state) => {
   return {
-    downloading: state.ffmpegReducer.downloading
+    downloading: state.ffmpegReducer.downloading,
+    flashMessage: state.flashMessageReducer.message
   };
-})(App);
+}, { requestConvert })(App);
