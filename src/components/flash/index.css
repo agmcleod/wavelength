@@ -13,3 +13,11 @@
   color: green;
   border: 1px solid green;
 }
+
+.close {
+  border-radius: 50%;
+  background: black;
+  opacity: 0.3;
+  color: white;
+  border: 0;
+}

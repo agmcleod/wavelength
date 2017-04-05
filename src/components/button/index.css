@@ -1,8 +1,8 @@
 .button {
-  background: #260339;
+  background: #764B8E;
 }
 
-.button, .danger {
+.button {
   padding: 10px 10px;
   border: 0;
   color: #fff;
@@ -12,4 +12,12 @@
 
 .danger {
   background: #AA5585;
+}
+
+.disabled {
+  opacity: 0.5;
+}
+
+.utility {
+  background: #A5C663;
 }

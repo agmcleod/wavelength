@@ -8,7 +8,7 @@ export function Flash (props) {
   return (
     <p className={props.type === TYPES.ERROR ? styles.error : styles.success}>
       {props.message}
-      <button className={styles.close} onClick={props.hideMessage()}>x</button>
+      <button className={styles.close} onClick={props.hideMessage}>x</button>
     </p>
   );
 }

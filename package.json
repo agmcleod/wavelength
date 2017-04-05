@@ -59,7 +59,9 @@
     "write-file-webpack-plugin": "^3.4.2"
   },
   "dependencies": {
+    "async": "~2.3.0",
     "babel-polyfill": "^6.23.0",
+    "classnames": "~2.2.5",
     "electron-packager": "^8.5.1",
     "ffbinaries": "git://github.com/agmcleod/ffbinaries-node.git",
     "fluent-ffmpeg": "^2.1.0",
