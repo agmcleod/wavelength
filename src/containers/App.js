@@ -5,6 +5,7 @@ import AddFile from '../components/add_file';
 import { Button, UtilityButton } from '../components/button';
 import Flash from '../components/flash';
 import { requestConvert } from '../reducers/convert';
+import Formats from '../components/formats';
 
 export class App extends Component {
   static propTypes = {
@@ -27,12 +28,13 @@ export class App extends Component {
 
     this.onAddFileField = this.onAddFileField.bind(this);
     this.onConvert = this.onConvert.bind(this);
+    this.onToggleFormat = this.onToggleFormat.bind(this);
   }
 
   getAddFileFields () {
     return this.state.files.map((file, i) => {
       return (
-        <AddFile key={i} onAddFile={(p) => this.onAddFile(i, p)} onRemoveFileField={() => this.onRemoveFileField(i)} />
+        <AddFile key={i} onAddFile={(p) => this.onAddFile(i, p)} currentPath={this.state.files[i]} onRemoveFileField={() => this.onRemoveFileField(i)} />
       );
     });
   }
@@ -74,30 +76,9 @@ export class App extends Component {
     return <h3>Downloading ffmpeg</h3>;
   }
 
-  renderFormats () {
-    const formats = ['aif', 'flac', 'mp3', 'ogg', 'wav'];
-
-    return (
-      <ul className={styles.list}>
-        {formats.map((format, i) => {
-          return (
-            <li key={i}>
-              <input
-                className={styles.formatCb}
-                type='checkbox' id={format}
-                onChange={(e) => this.onToggleFormat(e, format)} />
-              <label htmlFor={format}>{format.toUpperCase()}</label>
-            </li>
-          );
-        })}
-      </ul>
-    );
-  }
-
   renderForm () {
     return (
       <form onSubmit={this.onConvert}>
-        {this.renderFormats()}
         <ul className={styles.list}>
           {this.getAddFileFields()}
         </ul>
@@ -109,6 +90,7 @@ export class App extends Component {
             Add another file
           </UtilityButton>
         </p>
+        {this.state.files[0] !== '' ? <Formats onToggleFormat={this.onToggleFormat} /> : null }
         <p>
           <Button type='submit' disabled={this.props.submitted}>
             {this.props.submitted ? '...' : 'Convert'}

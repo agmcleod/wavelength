@@ -22,7 +22,6 @@ rules:
   guard-for-in: 2 # make sure for-in loops have an if statement
   indent: [2, 2, {'SwitchCase': 1}] # specify tab or space width for your code
   key-spacing: 2 # enforce spacing between keys and values in object literal properties
-  max-len: [2, 120, 4, {ignoreComments: false, ignoreUrls: true}] # specify the maximum length of a line in your program
   new-cap: 2 # require a capital letter for constructors
   new-parens: 2 # disallow the omission of parentheses when invoking a constructor with no arguments
   newline-after-var: 0 # require or disallow an empty newline after variable declarations. Robin doesn't like this
