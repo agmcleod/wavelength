@@ -30,7 +30,7 @@ Button.defaultProps = {
 
 export function DangerButton (props) {
   return (
-    <Button type={props.type} className={styles.danger} onClick={props.onClick}>
+    <Button type={props.type} className={classNames(styles.danger, props.className)} onClick={props.onClick}>
       {props.children}
     </Button>
   );

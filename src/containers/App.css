@@ -1,6 +1,9 @@
 .appHeader {
   border-bottom: 1px solid #222;
   text-align: center;
+  h2 {
+    font-weight: normal;
+  }
 }
 
 .appIntro {

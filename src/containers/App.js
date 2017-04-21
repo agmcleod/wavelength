@@ -34,7 +34,7 @@ export class App extends Component {
   getAddFileFields () {
     return this.state.files.map((file, i) => {
       return (
-        <AddFile key={i} onAddFile={(p) => this.onAddFile(i, p)} currentPath={this.state.files[i]} onRemoveFileField={() => this.onRemoveFileField(i)} />
+        <AddFile key={i} onAddFile={(p) => this.onAddFile(i, p)} index={i} currentPath={this.state.files[i]} onRemoveFileField={() => this.onRemoveFileField(i)} />
       );
     });
   }
@@ -109,7 +109,7 @@ export class App extends Component {
             this.props.flashMessage.type && this.props.flashMessage.message &&
             <Flash type={flashMessage.type} message={flashMessage.message} />
           }
-          <h2>Wavelength - audio converter</h2>
+          <h2>Wavelength</h2>
         </div>
         <div className={styles.body}>
           {this.props.downloading ? this.renderDownloading() : this.renderForm()}

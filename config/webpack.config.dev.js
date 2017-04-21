@@ -173,6 +173,7 @@ module.exports = {
           'not ie < 9', // React doesn't support IE8 anyway
         ]
       }),
+      require('postcss-nested')
     ];
   },
   plugins: [

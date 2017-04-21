@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './index.css';
 
 export default function Formats (props) {
-  const formats = ['aif', 'flac', 'mp3', 'ogg', 'wav'];
+  const formats = ['flac', 'mp3', 'ogg', 'wav'];
   return (
     <div>
       <h3>Select the formats you wish to convert the files into</h3>
