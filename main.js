@@ -51,8 +51,8 @@ function createWindow () {
   });
 
   ipcMain.on('convert-files', (event, arg) => {
-    dialog.showSaveDialog(win, { defaultPath: removeFileFromPath(arg.files[0]) }, (target) => {
-      const dirPath = path.dirname(target);
+    dialog.showOpenDialog(win, { defaultPath: removeFileFromPath(arg.files[0]), properties: ['createDirectory', 'openDirectory'] }, (target) => {
+      const dirPath = target[0];
       async.each(arg.files, (filePath, cb) => {
         async.each(arg.formats, (format, cb2) => {
           const codec = codecs[format];
