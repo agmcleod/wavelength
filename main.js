@@ -1,4 +1,4 @@
-const {app, BrowserWindow, ipcMain} = require('electron');
+const {app, BrowserWindow, dialog, ipcMain} = require('electron');
 const path = require('path');
 const url = require('url');
 const ffDownload = require('./backend/ffdownload');
@@ -16,6 +16,15 @@ const codecs = {
   ogg: 'libvorbis',
   wav: 'pcm_s32le'
 };
+
+function removeFileFromPath (pathName) {
+  const pieces = pathName.split(path.sep);
+  if (path.extname(pieces[pieces.length - 1]) !== '') {
+    return pieces.slice(0, pieces.length - 1).join(path.sep);
+  } else {
+    return pieces.join(path.sep);
+  }
+}
 
 function createWindow () {
   require('./backend/menu');
@@ -42,28 +51,35 @@ function createWindow () {
   });
 
   ipcMain.on('convert-files', (event, arg) => {
-    async.each(arg.files, (filePath, cb) => {
-      async.each(arg.formats, (format, cb2) => {
-        const codec = codecs[format];
-        if (!codec) {
-          return cb(new Error(`Could not find codec: ${format}`));
+    dialog.showSaveDialog(win, { defaultPath: removeFileFromPath(arg.files[0]) }, (target) => {
+      const dirPath = path.dirname(target);
+      async.each(arg.files, (filePath, cb) => {
+        async.each(arg.formats, (format, cb2) => {
+          const codec = codecs[format];
+          if (!codec) {
+            return cb(new Error(`Could not find codec: ${format}`));
+          }
+
+          const pieces = filePath.split(path.sep);
+          const fullFileName = pieces[pieces.length - 1];
+          const fileName = fullFileName.replace(new RegExp(`${path.extname(fullFileName)}$`), '');
+          const newPath = [dirPath, `${fileName}.${format}`].join(path.sep);
+
+          ffmpeg(filePath)
+            .audioCodec(codec)
+            .on('end', cb2)
+            .save(newPath);
+        }, cb);
+      }, (err) => {
+        if (err) {
+          win.webContents.send('save-error', err.message);
+        } else {
+          win.webContents.send('save-succeeded', 'Files converted successfully!');
         }
-
-        const newPath = filePath.replace(new RegExp(`${path.extname(filePath)}$`), '');
-
-        ffmpeg(filePath)
-          .audioCodec(codec)
-          .on('end', cb2)
-          .save(path.normalize(`${newPath}.${format}`));
-      }, cb);
-    }, (err) => {
-      if (err) {
-        win.webContents.send('save-error', err.message);
-      } else {
-        win.webContents.send('save-succeeded', 'Files converted successfully!');
-      }
+      });
     });
-  });
+    });
+
 }
 
 // This method will be called when Electron has finished
