@@ -18,6 +18,7 @@ const codecs = {
 };
 
 function createWindow () {
+  require('./backend/menu');
   ffDownload(app, () => {
     win.webContents.send('downloaded', true);
     ffmpeg.setFfmpegPath(path.join(app.getPath('userData'), 'ffmpeg'));
