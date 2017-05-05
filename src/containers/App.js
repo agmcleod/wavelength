@@ -92,7 +92,7 @@ export class App extends Component {
         </p>
         {this.state.files[0] !== '' ? <Formats onToggleFormat={this.onToggleFormat} /> : null }
         <p>
-          <Button type='submit' disabled={this.props.submitted}>
+          <Button type='submit' disabled={this.props.submitted} className={styles.submit}>
             {this.props.submitted ? '...' : 'Convert'}
           </Button>
         </p>

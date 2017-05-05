@@ -22,3 +22,10 @@
 .addAnotherFile {
   padding: 10px;
 }
+
+.submit {
+  margin: 10px auto;
+  width: 90%;
+  padding: 15px 0 !important;
+  display: block;
+}
