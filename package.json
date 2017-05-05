@@ -73,7 +73,7 @@
     "redux-thunk": "^2.2.0"
   },
   "scripts": {
-    "asar": "node scripts/asar.js",
+    "asar": "NODE_ENV=production node scripts/asar.js",
     "electron": "./node_modules/.bin/electron .",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",

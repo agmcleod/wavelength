@@ -1,17 +1,25 @@
-.error {
-  width: 100%;
+.error, .success {
+  display: flex;
   padding: 15px 20px;
+}
+
+.error {
   background: #f99;
   color: red;
   border: 1px solid red;
 }
 
 .success {
-  width: 100%;
-  padding: 15px 20px;
   background: #8c8;
   color: green;
   border: 1px solid green;
+}
+
+.message {
+  display: flex;
+  flex: 9;
+  margin: 0;
+  padding: 0;
 }
 
 .close {
@@ -20,4 +28,12 @@
   opacity: 0.3;
   color: white;
   border: 0;
+  width: 20px;
+  height: 20px;
+
+  span {
+    font-size: 1.2em;
+    position: relative;
+    top: -1;
+  }
 }
