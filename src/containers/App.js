@@ -104,14 +104,11 @@ export class App extends Component {
     const flashMessage = this.props.flashMessage;
     return (
       <div>
-        <div className={styles.appHeader}>
+        <div className={styles.body}>
           {
             this.props.flashMessage.type && this.props.flashMessage.message &&
             <Flash type={flashMessage.type} message={flashMessage.message} />
           }
-          <h2>Wavelength</h2>
-        </div>
-        <div className={styles.body}>
           {this.props.downloading ? this.renderDownloading() : this.renderForm()}
         </div>
       </div>
